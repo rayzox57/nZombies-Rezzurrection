@@ -215,6 +215,23 @@ end
 
 		return text
 	end,
+	["bank"] = function(ent)
+
+        local isDeposit = ent:GetIsDeposit() == true
+
+		if isDeposit == true then
+            local deposit  = ent:GetDeposit()
+            local fee      = ent:GetDepositFee()
+            local required = deposit + fee
+            return string.format("Deposit %s for %s (fee : %s)",deposit,required,fee);
+        else
+            local writedraw = ent:GetWritedraw()
+            local fee       = ent:GetWritedrawFee()
+            local required = writedraw + fee
+			return string.format("Writdraw %s and get %s (fee : %s)",required,writedraw,fee);
+		end
+
+	end
 }
 
 local function GetTarget()

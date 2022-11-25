@@ -729,3 +729,60 @@ nzMapping:AddSaveModule("DamageWalls", {
 	end,
 	cleanents = {"invis_damage_wall"},
 })
+
+nzMapping:AddSaveModule("Bank", {
+	savefunc = function()
+		local banks = {}
+		for _, v in pairs(ents.FindByClass("bank")) do
+
+			local deposit = v:GetDeposit()
+			deposit = deposit < 1 and 1 or (deposit > 999999 and 999999 or deposit)
+			local depositFee = v:GetDepositFee()
+			depositFee = depositFee < 0 and 0 or (depositFee > 999999 and 999999 or depositFee)
+			local writedraw = v:GetWritedraw()
+			writedraw = writedraw < 1 and 1 or (writedraw > 999999 and 999999 or writedraw)
+			local writedrawFee = v:GetWritedrawFee()
+			writedrawFee = writedrawFee < 0 and 0 or (writedrawFee > 999999 and 999999 or writedrawFee)
+			local minRound = v:GetMinRound()
+			minRound = minRound < 1 and 1 or (minRound > 9999 and 9999 or minRound)
+			local cooldown = v:GetCooldown()
+			cooldown = cooldown < 0.1 and 0.1 or (cooldown > 9999 and 9999 or cooldown)
+
+
+			table.insert(banks, {
+				pos = v:GetPos(),
+				angle = v:GetAngles(),
+				isDeposit = v:GetIsDeposit(),
+				deposit = deposit,
+				depositFee = depositFee,
+				writedraw = writedraw,
+				writedrawFee = writedrawFee,
+				model = v:GetModel(),
+				minRound = minRound,
+				cooldown = cooldown
+			})
+		end
+		return banks
+	end,
+	loadfunc = function(data)
+		for k,v in pairs(data) do
+
+			local deposit = tonumber(v.deposit)
+			deposit = deposit < 1 and 1 or (deposit > 999999 and 999999 or deposit)
+			local depositFee = tonumber(v.depositFee)
+			depositFee = depositFee < 0 and 0 or (depositFee > 999999 and 999999 or depositFee)
+			local writedraw = tonumber(v.writedraw)
+			writedraw = writedraw < 1 and 1 or (writedraw > 999999 and 999999 or writedraw)
+			local writedrawFee = tonumber(v.writedrawFee)
+			writedrawFee = writedrawFee < 0 and 0 or (writedrawFee > 999999 and 999999 or writedrawFee)
+			local minRound = tonumber(v.minRound)
+			minRound = minRound < 1 and 1 or (minRound > 9999 and 9999 or minRound)
+			local cooldown = tonumber(v.cooldown)
+			cooldown = cooldown < 0.1 and 0.1 or (cooldown > 9999 and 9999 or cooldown)
+
+
+			nzMapping:CreateBank(nil,v.pos,v.angle,v.isDeposit,deposit,depositFee,writedraw,writedrawFee,v.mdl,minRound,cooldown)
+		end
+	end,
+	cleanents = {"bank"},
+})

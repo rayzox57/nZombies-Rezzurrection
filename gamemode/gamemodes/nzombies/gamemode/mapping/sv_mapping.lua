@@ -716,6 +716,43 @@ function nzMapping:CreateInvisibleDamageWall(vec1, vec2, ply, dmg, delay, radiat
 	return wall
 end
 
+
+function nzMapping:CreateBank(ply,pos,ang,isdeposit,deposit,depositFee,writedraw,writedrawFee,mdl,minRound,cooldown)
+
+	if isbool(isdeposit) == false and isnumber(isdeposit) then
+		isdeposit = isdeposit == 1
+	end
+
+	local bank = ents.Create( "bank" )
+	bank:SetPos(pos)
+	bank:SetAngles(ang)
+	bank:SetIsDeposit(isdeposit)
+	bank:SetDeposit(deposit)
+	bank:SetDepositFee(depositFee)
+	bank:SetWritedraw(writedraw)
+	bank:SetWritedrawFee(writedrawFee)
+	bank:SetMinRound(minRound) // Force min round to 1
+	bank:SetCooldown(cooldown) // Force min cooldown to 0.1
+	bank:SetModel(mdl)
+	bank:Spawn()
+	bank:PhysicsInit( SOLID_VPHYSICS )
+
+	local phys = bank:GetPhysicsObject()
+	if bank:IsValid() then
+		phys:EnableMotion(false)
+	end
+
+	if ply then
+		undo.Create( "Bank" )
+			undo.SetPlayer( ply )
+			undo.AddEntity( bank )
+		undo.Finish( "Effect (" .. tostring( model ) .. ")" )
+	end
+	return bank
+end
+
+
+
 -- Physgun Hooks
 local ghostentities = {
 	["prop_buys"] = true,
