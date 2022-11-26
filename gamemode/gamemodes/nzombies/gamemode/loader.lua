@@ -2,6 +2,8 @@
 
 -- Main Tables
 nz = nz or {}
+nz.Ready = nz.Ready or false
+
 function AddNZModule(id)
 	local tbl = {}
 	--nz[id] = tbl -- Enabling this line will make all tables parented to nz again
@@ -67,3 +69,7 @@ for k,v in pairs(dirs) do
 
 end
 print(" ** End List **")
+
+// add a hook run
+nz.Ready = true 
+hook.Run("NZ.LoadReady")
