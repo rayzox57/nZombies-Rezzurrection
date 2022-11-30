@@ -124,6 +124,11 @@ if SERVER then
 	
 	local oldsetwep = playerMeta.SetActiveWeapon
 	function playerMeta:SetActiveWeapon(wep)
+
+		if isstring(wep) and istable(weapons.Get(wep)) then
+			wep = ents.Create(wep)
+		end
+
 		local oldwep = self:GetActiveWeapon()
 		if IsValid(oldwep) and !oldwep:IsSpecial() then
 			self.NZPrevWep = oldwep
