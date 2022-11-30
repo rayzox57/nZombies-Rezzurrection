@@ -18,6 +18,8 @@ print("nZombies Loading...")
 
 function AutoInclude(name, dir)
 
+	if string.EndsWith(name,".txt") then return end
+
 	local sep = string.Explode("_", name)
 	name = dir..name
 
