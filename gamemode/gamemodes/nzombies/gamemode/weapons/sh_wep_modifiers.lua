@@ -554,8 +554,10 @@ cooldown = false
 			
 			local gun = nzMisc.WeightedRandom( guns ) -- Randomly decide by weight
 			if !cooldown then
-			 ply:StripWeapon( ply:GetActiveWeapon():GetClass() )
-			 ply:Give(gun)
+				if SERVER then
+					ply:StripWeapon( ply:GetActiveWeapon():GetClass() )
+					ply:Give(gun)
+				end
 	cooldown = true
 	timer.Simple(1, function()
 					cooldown = false
