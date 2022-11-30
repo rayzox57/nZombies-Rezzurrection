@@ -767,6 +767,8 @@ nzMapping:AddSaveModule("Bank", {
 	loadfunc = function(data)
 		for k,v in pairs(data) do
 
+			PrintTable(v)
+
 			local deposit = tonumber(v.deposit)
 			deposit = deposit < 1 and 1 or (deposit > 999999 and 999999 or deposit)
 			local depositFee = tonumber(v.depositFee)
@@ -781,7 +783,7 @@ nzMapping:AddSaveModule("Bank", {
 			cooldown = cooldown < 0.1 and 0.1 or (cooldown > 9999 and 9999 or cooldown)
 
 
-			nzMapping:CreateBank(nil,v.pos,v.angle,v.isDeposit,deposit,depositFee,writedraw,writedrawFee,v.mdl,minRound,cooldown)
+			nzMapping:CreateBank(nil,v.pos,v.angle,v.isDeposit,deposit,depositFee,writedraw,writedrawFee,v.model,minRound,cooldown)
 		end
 	end,
 	cleanents = {"bank"},
