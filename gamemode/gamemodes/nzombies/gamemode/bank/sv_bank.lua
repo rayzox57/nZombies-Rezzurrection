@@ -119,7 +119,7 @@ nzBank.endPlayer = function(ply)
     nzBank.clearAllCooldown(ply:SteamID64())
 end
 
-hook.Add("OnPlayerDropOut","nzBank.PD.Save", function(ply)
+hook.Add("OnPlayerDropOut","nzBank.OPDO.Save", function(ply)
     if not ply:IsPlayer() then return end
     local sid64 = ply:SteamID64()
     if nzBank.hasCooldown(sid64,nzBank.NZBANK_COOLDOWN_SAVE) == true then return end
