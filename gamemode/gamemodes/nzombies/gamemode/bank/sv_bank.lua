@@ -6,6 +6,7 @@ nzBank.cooldown = {}
 
 nzBank.NZBANK_COOLDOWN_WRITEDRAW = "nbcw"
 nzBank.NZBANK_COOLDOWN_DEPOSIT   = "nbcd"
+nzBank.NZBANK_COOLDOWN_SAVE      = "nbcs"
 
 nzBank.clearCooldown = function(sid64,typeC)
     nzBank.cooldown[sid64] = nzBank.cooldown[sid64] or {}
@@ -118,8 +119,15 @@ nzBank.endPlayer = function(ply)
     nzBank.clearAllCooldown(ply:SteamID64())
 end
 
-hook.Add("PlayerDisconnected","nzBank.PD.Save", function(ply) nzBank.endPlayer(ply) end)
-hook.Add("OnRoundEnd","nzBank.ORE.SaveAll", function() 
+hook.Add("OnPlayerDropOut","nzBank.PD.Save", function(ply)
+    if not ply:IsPlayer() then return end
+    local sid64 = ply:SteamID64()
+    if nzBank.hasCooldown(sid64,nzBank.NZBANK_COOLDOWN_SAVE) == true then return end
+    nzBank.newCooldown(sid64,nzBank.NZBANK_COOLDOWN_SAVE,5)
+    nzBank.endPlayer(ply)
+end)
+
+hook.Add("OnRoundEnd","nzBank.ORE.SaveAll", function()
     for k,v in ipairs(player.GetAll()) do
         nzBank.endPlayer(v)
     end
